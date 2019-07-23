@@ -1,23 +1,22 @@
+/* global webkitSpeechRecognition, webkitSpeechGrammarList */
+
 const SpeechRecognition = webkitSpeechRecognition;
 const SpeechGrammarList = webkitSpeechGrammarList;
-const SpeechRecognitionEvent = webkitSpeechRecognitionEvent;
 
-
-let apiKey = 'BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8';
-let url = 'http://api.giphy.com/v1/gifs/search?q=!toreplace!&lang=fr&api_key=BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8&limit=1';
+let url = 'api.giphy.com/v1/gifs/search?q=!toreplace!&lang=fr&api_key=BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8&limit=1';
 
 let list = [
-    'LION',
-    'AVION',
-    'KOALA',
-    'KANGOUROU',
-    'LAPIN',
-    'CHAT',
-    'CUISINE',
-    'VELO',
-    'VOITURE',
-    'HELICOPTERE',
-    'HIPPOPOTAME',
+    'Lion',
+    'Avion',
+    'Koala',
+    'Kangourou',
+    'Lapin',
+    'Chat',
+    'Cuisine',
+    'Velo',
+    'Voiture',
+    'Helicoptere',
+    'Hippopotame',
 ];
 
 
@@ -45,9 +44,10 @@ class GameManager {
     goNextChar (){
         if(this.currentIndex >= this.currentWord.length -1){
             this.canPlay = false;
+            let scheme = location.protocol.startsWith('http') ? location.protocol: 'http:';
             let newUrl = url.replace('!toreplace!', this.currentWord);
             document.querySelector('.current-letter').classList.remove('error-letter');
-            fetch(newUrl).then((res) => {
+            fetch(`${scheme}//${newUrl}`).then((res) => {
                 return res.json();
             }).then((res) => {
                 this.speak(this.currentWord);
@@ -127,22 +127,13 @@ class GameManager {
 
         recognition.start();
 
-        recognition.onresult = (event) => {
-            console.debug('coucou');
+        recognition.onresult = (/*event*/) => {
             this.reset();
         };
         recognition.onspeechend = function() {
             console.debug('end');
             recognition.stop();
         };
-
-        // recognition.onnomatch = function(event) {
-
-        // }
-
-        // recognition.onerror = function(event) {
-
-        // }
     }
 
     checkChar (){
@@ -156,11 +147,8 @@ class GameManager {
             span.classList.add('letter');
             span.innerHTML = char;
             if(count === this.currentIndex){
-                setTimeout(() => {
-                    span.classList.add('current-letter');
-                    this.speak(char);
-
-                },500);
+                span.classList.add('current-letter');
+                this.speak(char);
             }
             count ++;
             this.wordDom.append(span);
@@ -169,16 +157,17 @@ class GameManager {
     }
 
     speak (val){
-        return new Promise((resolve) => {
+        if(val.length == 1){
+            var audio = new Audio(`sounds/son-lettres-${val.toLowerCase()}.mp3`);
+            audio.play();
+        }
+        else{
             var sp = new SpeechSynthesisUtterance(val);
             sp.voice = this.synth.getVoices().find((v)=> v.name === 'Google français');
             this.synth.speak(sp);
-            sp.onend = (event) => {
-                resolve();
-            };
-        });
+        }
     }
-};
+}
 
 
 
@@ -186,6 +175,8 @@ document.addEventListener('DOMContentLoaded', function(){
     let wordDom = document.querySelectorAll('.word-to-find')[0];
     let letterDom = document.querySelectorAll('.upcomming-letter')[0];
     let gameManager = new GameManager(wordDom, letterDom);
-    gameManager.init();
+    setTimeout(() => {
+        gameManager.init();
+    }, 500);
 
 }, false);
