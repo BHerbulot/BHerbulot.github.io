@@ -6,18 +6,30 @@ const SpeechGrammarList = webkitSpeechGrammarList;
 let url = 'api.giphy.com/v1/gifs/search?q=!toreplace!&lang=fr&api_key=BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8&limit=1';
 
 let list = [
-    'Lion',
-    'Avion',
-    'Koala',
-    'Kangourou',
-    'Lapin',
-    'Chat',
-    'Cuisine',
-    'Velo',
-    'Voiture',
-    'Helicoptere',
-    'Hippopotame',
+    'domino',
+    'sol',
+    'ami',
+    'moto',
+    'bol',
+    'sac',
+    'col',
+    'vol',
+    'ver',
 ];
+
+// let list = [
+//     'lion',
+//     'avion',
+//     'koala',
+//     'kangourou',
+//     'lapin',
+//     'chat',
+//     'cuisine',
+//     'velo',
+//     'voiture',
+//     'helicoptere',
+//     'hippopotame',
+// ];
 
 
 class GameManager {
