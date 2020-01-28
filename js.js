@@ -4,7 +4,7 @@ const SpeechRecognitionEvent = webkitSpeechRecognitionEvent;
 
 
 let apiKey = 'BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8';
-let url = 'http://api.giphy.com/v1/gifs/search?q=!toreplace!&lang=fr&api_key=BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8&limit=1';
+let url = 'https://api.giphy.com/v1/gifs/search?q=!toreplace!&lang=fr&api_key=BDABlr8a5LxEgp1TYopHQE1ysoE2ghC8&limit=1';
 
 let list = [
     'LION',
